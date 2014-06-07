@@ -219,11 +219,32 @@ function pannellumpress_manage_page() {
                     <th scope='col' id='cb' class='manage-column column-cb check-column'  style=""><label class="screen-reader-text" for="cb-select-all-1">Select All</label><input id="cb-select-all-1" type="checkbox" /></th>
                     <!--<th scope='col' id='icon' class='manage-column column-icon'  style=""></th>-->
                     <th scope='col'>Name</th>
-                    <th scope='col'>Type</th>
                 </tr>
             </thead>
-            <tfoot>
-            </tfoot>
+            <tbody id="the-list">
+<?php
+
+    // add an entry for each folder
+    if ($handle = opendir(pannellumpress_upload_folder())) {
+        while (($entry = readdir($handle)) !== false) {
+            if ($entry != "." && $entry != ".." && is_dir(pannellumpress_upload_folder() . '/' . $entry)) {
+?>
+                <tr>
+                    <th scope="row" class="check-column">
+                        <label class="screen-reader-text" for="cb-select-<?php echo esc_attr($entry); ?>">Select <?php echo esc_html($entry); ?></label>
+                        <input type="checkbox" name="deletes" id="cb-select-<?php echo esc_attr($entry); ?>" value="<?php echo esc_attr($entry); ?>" />
+                    </th>
+                    <td class='name'><?php echo esc_html($entry); ?></td>
+                </tr>
+<?php
+            }
+        }
+        closedir($handle);
+    }
+
+?>
+
+            </tbody>
         </table>
 
     </form>
