@@ -49,6 +49,9 @@ function pannellumpress_admin_menu() {
 
 // form field names
 define('PANNELLUMPRESS_MANAGE_HIDDEN_FIELD', 'pannellumpress_manage_existing_hidden');
+define('PANNELLUMPRESS_MANAGE_SELECTION_FIELD', 'selected');
+define('PANNELLUMPRESS_MANAGE_ACTION_FIELD', 'action');
+define('PANNELLUMPRESS_MANAGE_ACTION_DELETE', 'delete');
 define('PANNELLUMPRESS_UPLOAD_HIDDEN_FIELD', 'pannellumpress_upload_hidden');
 define('PANNELLUMPRESS_UPLOAD_NAME_FIELD', 'name');
 define('PANNELLUMPRESS_UPLOAD_CONFIG_FIELD', 'config');
@@ -159,6 +162,21 @@ function pannellumpress_process_upload() {
 
 }
 
+function pannellumpress_process_manage() {
+
+    if (empty($_POST[PANNELLUMPRESS_MANAGE_HIDDEN_FIELD])) {
+        return;
+    }
+    if ($_POST[PANNELLUMPRESS_MANAGE_ACTION_FIELD] != PANNELLUMPRESS_MANAGE_ACTION_DELETE) {
+        return;
+    }
+
+    foreach($_POST[PANNELLUMPRESS_MANAGE_SELECTION_FIELD] as $folder) {
+        pannellumpress_delete_dir(pannellumpress_upload_folder() . '/' . basename($folder));
+    }
+
+}
+
 function pannellumpress_manage_page() {
 
     // check permissions
@@ -174,6 +192,7 @@ function pannellumpress_manage_page() {
     } catch (UploadException $e) {
         echo "Upload error: " . $e->getMessage();
     }
+    pannellumpress_process_manage();
 ?>
 
     <h3>Upload a new panorama</h3>
@@ -206,9 +225,9 @@ function pannellumpress_manage_page() {
         <input type="hidden" name="<?php echo PANNELLUMPRESS_MANAGE_HIDDEN_FIELD; ?>" value="Y">
 
         <div class="alignleft actions bulkactions">
-            <select name='action'>
+            <select name='<?php echo PANNELLUMPRESS_MANAGE_ACTION_FIELD; ?>'>
                 <option value='-1' selected='selected'>Bulk Actions</option>
-                <option value='delete'>Delete Permanently</option>
+                <option value='<?php echo PANNELLUMPRESS_MANAGE_ACTION_DELETE; ?>'>Delete Permanently</option>
             </select>
             <input type="submit" name="" id="doaction" class="button action" value="Apply"  />
         </div>
@@ -232,7 +251,7 @@ function pannellumpress_manage_page() {
                 <tr>
                     <th scope="row" class="check-column">
                         <label class="screen-reader-text" for="cb-select-<?php echo esc_attr($entry); ?>">Select <?php echo esc_html($entry); ?></label>
-                        <input type="checkbox" name="deletes" id="cb-select-<?php echo esc_attr($entry); ?>" value="<?php echo esc_attr($entry); ?>" />
+                        <input type="checkbox" name="<?php echo PANNELLUMPRESS_MANAGE_SELECTION_FIELD; ?>[]" id="cb-select-<?php echo esc_attr($entry); ?>" value="<?php echo esc_attr($entry); ?>" />
                     </th>
                     <td class='name'><?php echo esc_html($entry); ?></td>
                 </tr>
