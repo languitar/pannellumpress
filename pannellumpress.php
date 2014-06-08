@@ -9,8 +9,10 @@
  * License: LGPLv3
  */
 
+define('PANNELLUMPRESS_UPLOAD_SUBFOLDER', 'pannellumpress');
+
 function pannellumpress_upload_folder() {
-    return wp_upload_dir()['basedir'] . '/panellumpress';
+    return wp_upload_dir()['basedir'] . '/' . PANNELLUMPRESS_UPLOAD_SUBFOLDER;
 }
 
 add_action('init', 'pannellumpress_init');
@@ -27,6 +29,7 @@ function pannellumpress_shortcode($attributes, $content='', $code='') {
     extract(shortcode_atts(array(
             'width' => 600,
             'height' => 450,
+            'name' => 'undefined',
             'title' => 'Pannellum Panorama',
         ), $attributes));
 
@@ -36,7 +39,7 @@ function pannellumpress_shortcode($attributes, $content='', $code='') {
 
     $pannellum_url = plugins_url('pannellum/src/pannellum.htm', __FILE__);
 
-    return '<iframe title="' . esc_attr($title) . '" width="' . $width . '" height="' . $height . '" webkitAllowFullScreen mozallowfullscreen allowFullScreen style="border-style:none;" src="' . $pannellum_url . '?config=../examples/config.json"></iframe>';
+    return '<iframe title="' . esc_attr($title) . '" width="' . $width . '" height="' . $height . '" webkitAllowFullScreen mozallowfullscreen allowFullScreen style="border-style:none;" src="' . $pannellum_url . '?config=' . esc_url(wp_upload_dir()['baseurl'] . '/' . PANNELLUMPRESS_UPLOAD_SUBFOLDER . '/' . $name . '/config.json') . '"></iframe>';
 
 }
 
