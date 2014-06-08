@@ -1,12 +1,28 @@
 <?php
 /**
  * Plugin Name: pannellumpress
- * Plugin URI: http://URI_Of_Page_Describing_Plugin_and_Updates
- * Description: Integration of the pannellum panorama viewer into wordpress
- * Version: 0.1
+ * Plugin URI: https://github.com/languitar/pannellumpress
+ * Description:  A plugin to embed the open source html5 panorama viewer pannellum into Wordpress.
+ * Version: master
  * Author: Johannes Wienke
  * Author URI: http://www.semipol.de
  * License: LGPLv3
+ */
+
+/*
+ * This file may be licensed under the terms of the
+ * GNU Lesser General Public License Version 3 (the ``LGPL''),
+ * or (at your option) any later version.
+ *
+ * Software distributed under the License is distributed
+ * on an ``AS IS'' basis, WITHOUT WARRANTY OF ANY KIND, either
+ * express or implied. See the LGPL for the specific language
+ * governing rights and limitations.
+ *
+ * You should have received a copy of the LGPL along with this
+ * program. If not, go to http://www.gnu.org/licenses/lgpl.html
+ * or write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 define('PANNELLUMPRESS_UPLOAD_SUBFOLDER', 'pannellumpress');
