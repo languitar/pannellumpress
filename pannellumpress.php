@@ -35,7 +35,11 @@ function pannellumpress_upload_folder() {
 function pannellumpress_upload_url() {
     $upload_dirs = wp_upload_dir();
     $full_url = $upload_dirs['baseurl'];
-    return $full_url . '/' . PANNELLUMPRESS_UPLOAD_SUBFOLDER;
+    $full_url = str_replace("http://", "https://", $full_url);
+    $blog_url = get_site_url();
+    $blog_url = str_replace("http://", "https://", $blog_url);
+    $relative_url = str_replace($blog_url, "", $full_url);
+    return $relative_url . '/' . PANNELLUMPRESS_UPLOAD_SUBFOLDER;
 }
 
 add_action('init', 'pannellumpress_init');
@@ -61,6 +65,9 @@ function pannellumpress_shortcode($attributes, $content='', $code='') {
     $height = intval($height);
 
     $pannellum_url = plugins_url('pannellum/src/pannellum.htm', __FILE__);
+    if (is_ssl()) {
+        $pannellum_url = str_replace("http://", "https://", $pannellum_url);
+    }
 
     return '<iframe title="' . esc_attr($title) . '" width="' . $width . '" height="' . $height . '" webkitAllowFullScreen mozallowfullscreen allowFullScreen style="border-style:none;" src="' . $pannellum_url . '?config=' . esc_url(pannellumpress_upload_url() . '/' . $name . '/config.json') . '"></iframe>';
 
