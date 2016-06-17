@@ -1,3 +1,5 @@
+UNMAINTAINED!
+
 === pannellumpress ===
 Tags: panorama, pannellum, html5, viewer, image
 Requires at least: 3.9.0
